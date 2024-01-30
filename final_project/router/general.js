@@ -88,27 +88,27 @@ public_users.get('/author/:author', function (req, res) {
 
 
 
-// Get book details based on author using promise callbacks
-public_users.get('/author/:author', function (req, res) {
-    const author = req.params.author;
+// Get all books based on title using promise callbacks
+public_users.get('/title/:title', function (req, res) {
+    const title = req.params.title;
   
-    // Create a promise to fetch books by author
-    const getBooksByAuthorPromise = new Promise((resolve, reject) => {
+    // Create a promise to fetch books by title
+    const getBooksByTitlePromise = new Promise((resolve, reject) => {
       // Simulate asynchronous operation (e.g., fetching data from a database)
       setTimeout(() => {
-        const authorBooks = Object.values(books).filter(book => book.author === author);
-        if (authorBooks.length > 0) {
-          resolve(authorBooks);
+        const titleBooks = Object.values(books).filter(book => book.title.toLowerCase().includes(title.toLowerCase()));
+        if (titleBooks.length > 0) {
+          resolve(titleBooks);
         } else {
-          reject(new Error("Books by author not found"));
+          reject(new Error("Books with title not found"));
         }
       }, 1000); // Simulate delay of 1 second
     });
   
     // Handle the promise using callbacks
-    getBooksByAuthorPromise.then((authorBooks) => {
-      // Send books by author as JSON response
-      res.json(authorBooks);
+    getBooksByTitlePromise.then((titleBooks) => {
+      // Send books by title as JSON response
+      res.json(titleBooks);
     }).catch((error) => {
       // Handle error if promise is rejected
       res.status(404).json({ message: error.message });
@@ -116,7 +116,7 @@ public_users.get('/author/:author', function (req, res) {
   });
 
 
-  
+
 // Get book review
 public_users.get('/review/:isbn',function (req, res) {
   const isbn = req.params.isbn;
